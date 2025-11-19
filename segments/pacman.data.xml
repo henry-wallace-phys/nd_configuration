@@ -115,8 +115,8 @@
   <ref class="ActionPlan" id="eth-readout-stop"/>
  </rel>
   <rel name="queue_rules">
-  <ref class="QueueConnectionRule" id="pac-eth-raw-data-rule"/>
-  <ref class="QueueConnectionRule" id="nd-dlh-data-requests-queue-rule"/>
+  <ref class="QueueConnectionRule" id="pacman-eth-raw-data-rule"/>
+  <ref class="QueueConnectionRule" id="pacman-dlh-data-requests-queue-rule"/>
   <ref class="QueueConnectionRule" id="fa-queue-rule"/>
   <ref class="QueueConnectionRule" id="tp-queue-rule"/>
  </rel>
@@ -227,21 +227,21 @@
  </rel>
 </obj>
 
-<obj class="QueueConnectionRule" id="pac-eth-raw-data-rule">
+<obj class="QueueConnectionRule" id="pacman-eth-raw-data-rule">
  <attr name="destination_class" type="class" val="NDDataHandlerModule"/>
- <rel name="descriptor" class="QueueDescriptor" id="pac-eth-raw-input"/>
+ <rel name="descriptor" class="QueueDescriptor" id="pacman-eth-raw-input"/>
 </obj>
 
 
-<obj class="QueueDescriptor" id="pac-eth-raw-input">
- <attr name="uid_base" type="string" val="raw_input_"/>
+<obj class="QueueDescriptor" id="pacman-eth-raw-input">
+ <attr name="uid_base" type="string" val="pacman_raw_input_"/>
  <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
  <attr name="capacity" type="u32" val="10000"/>
  <attr name="data_type" type="string" val="PACMANFrame"/>
 </obj>
 
 
-<obj class="QueueConnectionRule" id="nd-dlh-data-requests-queue-rule">
+<obj class="QueueConnectionRule" id="pacman-dlh-data-requests-queue-rule">
  <attr name="destination_class" type="class" val="NDDataHandlerModule"/>
  <rel name="descriptor" class="QueueDescriptor" id="data-req-queue-desc"/>
 </obj>

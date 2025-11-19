@@ -360,28 +360,28 @@
 </obj>
 
 <obj class="QueueDescriptor" id="crt-bern-callback-bypass">
- <attr name="uid_base" type="string" val="cb_raw_input_"/>
+ <attr name="uid_base" type="string" val="cb_pacman_raw_input_"/>
  <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
  <attr name="capacity" type="u32" val="10000"/>
  <attr name="data_type" type="string" val="CRTBernFrame"/>
 </obj>
 
 <obj class="QueueDescriptor" id="crt-bern-raw-input">
- <attr name="uid_base" type="string" val="raw_input_"/>
+ <attr name="uid_base" type="string" val="pacman_raw_input_"/>
  <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
  <attr name="capacity" type="u32" val="10000"/>
  <attr name="data_type" type="string" val="CRTBernFrame"/>
 </obj>
 
 <obj class="QueueDescriptor" id="crt-grenoble-callback-bypass">
- <attr name="uid_base" type="string" val="cb_raw_input_"/>
+ <attr name="uid_base" type="string" val="cb_pacman_raw_input_"/>
  <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
  <attr name="capacity" type="u32" val="10000"/>
  <attr name="data_type" type="string" val="CRTGrenobleFrame"/>
 </obj>
 
 <obj class="QueueDescriptor" id="crt-grenoble-raw-input">
- <attr name="uid_base" type="string" val="raw_input_"/>
+ <attr name="uid_base" type="string" val="pacman_raw_input_"/>
  <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
  <attr name="capacity" type="u32" val="10000"/>
  <attr name="data_type" type="string" val="CRTGrenobleFrame"/>
@@ -416,14 +416,14 @@
 </obj>
 
 <obj class="QueueDescriptor" id="pds-raw-input">
- <attr name="uid_base" type="string" val="raw_input_"/>
+ <attr name="uid_base" type="string" val="pacman_raw_input_"/>
  <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
  <attr name="capacity" type="u32" val="10000"/>
  <attr name="data_type" type="string" val="PDSFrame"/>
 </obj>
 
 <obj class="QueueDescriptor" id="pds-stream-raw-input">
- <attr name="uid_base" type="string" val="raw_input_"/>
+ <attr name="uid_base" type="string" val="pacman_raw_input_"/>
  <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
  <attr name="capacity" type="u32" val="10000"/>
  <attr name="data_type" type="string" val="PDSStreamFrame"/>
@@ -451,7 +451,7 @@
 </obj>
 
 <obj class="QueueDescriptor" id="tde-raw-input">
- <attr name="uid_base" type="string" val="raw_input_"/>
+ <attr name="uid_base" type="string" val="pacman_raw_input_"/>
  <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
  <attr name="capacity" type="u32" val="10000"/>
  <attr name="data_type" type="string" val="TDEEthFrame"/>
@@ -472,14 +472,14 @@
 </obj>
 
 <obj class="QueueDescriptor" id="wib-eth-callback-bypass">
- <attr name="uid_base" type="string" val="cb_raw_input_"/>
+ <attr name="uid_base" type="string" val="cb_pacman_raw_input_"/>
  <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
  <attr name="capacity" type="u32" val="10000"/>
  <attr name="data_type" type="string" val="WIBEthFrame"/>
 </obj>
 
 <obj class="QueueDescriptor" id="wib-eth-raw-input">
- <attr name="uid_base" type="string" val="raw_input_"/>
+ <attr name="uid_base" type="string" val="pacman_raw_input_"/>
  <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
  <attr name="capacity" type="u32" val="10000"/>
  <attr name="data_type" type="string" val="WIBEthFrame"/>
