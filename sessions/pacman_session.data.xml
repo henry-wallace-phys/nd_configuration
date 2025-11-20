@@ -87,7 +87,7 @@
 
 <obj class="Segment" id="root-segment">
  <rel name="segments">
-  <ref class="Segment" id="df-segment"/>
+  <!-- <ref class="Segment" id="df-segment"/> -->
   <ref class="Segment" id="pacman-segment"/>
  </rel>
  <rel name="controller" class="RCApplication" id="root-controller"/>

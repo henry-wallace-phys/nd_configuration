@@ -179,6 +179,12 @@
  <rel name="descriptor" class="NetworkConnectionDescriptor" id="data-req-net-input"/>
 </obj>
 
+<obj class="NetworkConnectionRule" id="data-req-pacman-net-rule">
+ <attr name="endpoint_class" type="class" val="NDDataHandlerModule"/>
+ <rel name="descriptor" class="NetworkConnectionDescriptor" id="data-req-net-input"/>
+</obj>
+
+
 <obj class="NetworkConnectionRule" id="data-req-trig-net-rule">
  <attr name="endpoint_class" type="class" val="TriggerDataHandlerModule"/>
  <rel name="descriptor" class="NetworkConnectionDescriptor" id="data-req-net-input"/>
@@ -255,7 +261,7 @@
 </obj>
 
 <obj class="NetworkConnectionRule" id="ts-net-rule">
- <attr name="endpoint_class" type="class" val="DataHandlerModule"/>
+ <attr name="endpoint_class" type="class" val="NDDataHandlerModule"/>
  <rel name="descriptor" class="NetworkConnectionDescriptor" id="timesync-publisher"/>
 </obj>
 
