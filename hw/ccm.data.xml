@@ -154,68 +154,27 @@
 
 <obj class="Service" id="daqapp_control">
  <attr name="protocol" type="string" val="rest"/>
- <attr name="port" type="u16" val="30941"/>
+ <attr name="port" type="u16" val="0"/>
 </obj>
 
 <obj class="Service" id="ehn1-connectivity-service">
  <attr name="protocol" type="string" val="http"/>
- <attr name="port" type="u16" val="30005"/>
+ <attr name="port" type="u16" val="0"/>
 </obj>
 
 <obj class="Service" id="local-connectivity-service">
  <attr name="protocol" type="string" val="http"/>
- <attr name="port" type="u16" val="30005"/>
+ <attr name="port" type="u16" val="30001"/>
 </obj>
 
 <obj class="Service" id="rccontroller_control">
  <attr name="protocol" type="string" val="grpc"/>
- <attr name="port" type="u16" val="39412"/>
+ <attr name="port" type="u16" val="0"/>
 </obj>
 
 <obj class="Service" id="root-rccontroller_control">
  <attr name="protocol" type="string" val="grpc"/>
- <attr name="port" type="u16" val="30006"/>
-</obj>
-
-<obj class="Variable" id="ehn1-env-connectivity-port">
- <attr name="name" type="string" val="CONNECTION_PORT"/>
- <attr name="value" type="string" val="30005"/>
-</obj>
-
-<obj class="Variable" id="ehn1-env-connectivity-server">
- <attr name="name" type="string" val="CONNECTION_SERVER"/>
- <attr name="value" type="string" val="np04-srv-017"/>
-</obj>
-
-<obj class="Variable" id="ehn1-env-ers-error">
- <attr name="name" type="string" val="DUNEDAQ_ERS_ERROR"/>
- <attr name="value" type="string" val="erstrace,throttle,lstdout,protobufstream(monkafka.cern.ch:30092)"/>
-</obj>
-
-<obj class="Variable" id="ehn1-env-ers-fatal">
- <attr name="name" type="string" val="DUNEDAQ_ERS_FATAL"/>
- <attr name="value" type="string" val="erstrace,lstdout,protobufstream(monkafka.cern.ch:30092)"/>
-</obj>
-
-<obj class="Variable" id="ehn1-env-ers-info">
- <attr name="name" type="string" val="DUNEDAQ_ERS_INFO"/>
- <attr name="value" type="string" val="erstrace,throttle,lstdout,protobufstream(monkafka.cern.ch:30092)"/>
-</obj>
-
-<obj class="Variable" id="ehn1-env-ers-stream-libs">
- <attr name="description" type="string" val="List of extra ERS streaming libs"/>
- <attr name="name" type="string" val="DUNEDAQ_ERS_STREAM_LIBS"/>
- <attr name="value" type="string" val="erskafka"/>
-</obj>
-
-<obj class="Variable" id="ehn1-env-ers-verb">
- <attr name="name" type="string" val="DUNEDAQ_ERS_VERBOSITY_LEVEL"/>
- <attr name="value" type="string" val="1"/>
-</obj>
-
-<obj class="Variable" id="ehn1-env-ers-warning">
- <attr name="name" type="string" val="DUNEDAQ_ERS_WARNING"/>
- <attr name="value" type="string" val="erstrace,throttle,lstdout,protobufstream(monkafka.cern.ch:30092)"/>
+ <attr name="port" type="u16" val="0"/>
 </obj>
 
 <obj class="Variable" id="local-env-ers-debug-level">
@@ -250,20 +209,7 @@
 
 <obj class="Variable" id="local-env-connectivity-port">
  <attr name="name" type="string" val="CONNECTION_PORT"/>
- <attr name="value" type="string" val="30005"/>
-</obj>
-
-<obj class="VariableSet" id="ehn1-variables">
- <rel name="contains">
-  <ref class="Variable" id="ehn1-env-ers-error"/>
-  <ref class="Variable" id="ehn1-env-ers-fatal"/>
-  <ref class="Variable" id="ehn1-env-ers-info"/>
-  <ref class="Variable" id="ehn1-env-ers-stream-libs"/>
-  <ref class="Variable" id="ehn1-env-ers-verb"/>
-  <ref class="Variable" id="ehn1-env-ers-warning"/>
-  <ref class="Variable" id="ehn1-env-connectivity-port"/>
-  <ref class="Variable" id="ehn1-env-connectivity-server"/>
- </rel>
+ <attr name="value" type="string" val="30001"/>
 </obj>
 
 <obj class="VariableSet" id="local-variables">

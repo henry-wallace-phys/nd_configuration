@@ -87,14 +87,14 @@
 
 <obj class="Segment" id="root-segment">
  <rel name="segments">
-  <!-- <ref class="Segment" id="df-segment"/> -->
+  <ref class="Segment" id="df-segment"/>
   <ref class="Segment" id="pacman-segment"/>
  </rel>
  <rel name="controller" class="RCApplication" id="root-controller"/>
 </obj>
 
 <obj class="Session" id="pacman-session">
-<attr name="data_request_timeout_ms" type="u32" val="100000"/>
+<attr name="data_request_timeout_ms" type="u32" val="1000000"/>
  <attr name="data_rate_slowdown_factor" type="u32" val="1"/>
  <attr name="controller_log_level" type="enum" val="INFO"/>
  <attr name="log_path" type="string" val="/nfs/scratch0/hwallace/dune_software/daq/daq_work_areas/fddaq-v5.5.0-rc1-a9/logs"/>

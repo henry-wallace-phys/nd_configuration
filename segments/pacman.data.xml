@@ -94,7 +94,7 @@
 
 <obj class="Service" id="pacman-app-control">
  <attr name="protocol" type="string" val="rest"/>
- <attr name="port" type="u16" val="30112"/>
+ <attr name="port" type="u16" val="0"/>
 </obj>
 
 <obj class="ReadoutApplication" id="pacman-app">
@@ -146,7 +146,7 @@
 
 <obj class="PACMANModuleConf" id="pacman-reader">
  <attr name="template_for" type="class" val="PACMANReaderModule"/>
- <attr name="emulation_mode" type="bool" val="0"/>
+ <attr name="emulation_mode" type="bool" val="1"/>
 </obj>
 
 <obj class="PACMANConfiguration" id="pacman-configuration">
