@@ -147,6 +147,7 @@
 <obj class="PACMANModuleConf" id="pacman-reader">
  <attr name="template_for" type="class" val="PACMANReaderModule"/>
  <attr name="emulation_mode" type="bool" val="1"/>
+ <rel name="emulation_conf" id="stream-emu" class="StreamEmulationParameters"/>
 </obj>
 
 <obj class="PACMANConfiguration" id="pacman-configuration">
