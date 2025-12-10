@@ -63,7 +63,7 @@
 
 <oks-data>
 
-<info name="" type="" num-of-items="151" oks-format="data" oks-version="862f2957270" created-by="hwallace" created-on="linappserv2.pp.rhul.ac.uk" creation-time="20251121T102522" last-modified-by="hwallace" last-modified-on="linappserv2.pp.rhul.ac.uk" last-modification-time="20251121T102522"/>
+<info name="" type="" num-of-items="5" oks-format="data" oks-version="862f2957270" created-by="hwallace" created-on="linappserv2.pp.rhul.ac.uk" creation-time="20251121T102522" last-modified-by="hwallace" last-modified-on="np04-srv-019.cern.ch" last-modification-time="20251210T105545"/>
 
 <include>
  <file path="schema/confmodel/dunedaq.schema.xml"/>
@@ -78,11 +78,10 @@
  <file path="hw/pacman-det-connections.data.xml"/>
 </include>
 
-<obj class="Segment" id="pacman-segment">
- <rel name="applications">
-  <ref class="ReadoutApplication" id="pacman-app"/>
- </rel>
- <rel name="controller" class="RCApplication" id="pacman-controller"/>
+
+<obj class="PACMANModuleConf" id="pacman-reader">
+ <attr name="template_for" type="class" val="PACMANReaderModule"/>
+ <attr name="emulation_mode" type="bool" val="0"/>
 </obj>
 
 <obj class="RCApplication" id="pacman-controller">
@@ -97,7 +96,7 @@
 
 <obj class="ReadoutApplication" id="pacman-app">
  <attr name="application_name" type="string" val="daq_application"/>
- <attr name="tp_generation_enabled" type="bool" val="1">
+ <attr name="tp_generation_enabled" type="bool" val="1"/>
  <attr name="ta_generation_enabled" type="bool" val="1"/>
  <rel name="runs_on" class="VirtualHost" id="vlocalhost"/>
  <rel name="exposes_service">
@@ -114,7 +113,6 @@
  </rel>
  <rel name="queue_rules">
   <ref class="QueueConnectionRule" id="pacman-eth-raw-data-rule"/>
-  <ref class="QueueConnectionRule" id="pacman-callback-raw-data-rule"/>
   <ref class="QueueConnectionRule" id="pacman-dlh-data-requests-queue-rule"/>
   <ref class="QueueConnectionRule" id="fa-queue-rule"/>
   <ref class="QueueConnectionRule" id="tp-queue-rule"/>
@@ -138,14 +136,16 @@
  </rel>
 </obj>
 
+<obj class="Segment" id="pacman-segment">
+ <rel name="applications">
+  <ref class="ReadoutApplication" id="pacman-app"/>
+ </rel>
+ <rel name="controller" class="RCApplication" id="pacman-controller"/>
+</obj>
+
 <obj class="SourceIDConf" id="tp-srcid-1000">
  <attr name="sid" type="u32" val="1000"/>
  <attr name="subsystem" type="enum" val="Trigger"/>
-</obj>
-
-<obj class="PACMANModuleConf" id="pacman-reader">
- <attr name="template_for" type="class" val="PACMANReaderModule"/>
- <attr name="emulation_mode" type="bool" val="0"/>
 </obj>
 
 </oks-data>

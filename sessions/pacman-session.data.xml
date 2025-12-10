@@ -63,7 +63,7 @@
 
 <oks-data>
 
-<info name="" type="" num-of-items="151" oks-format="data" oks-version="862f2957270" created-by="hwallace" created-on="linappserv2.pp.rhul.ac.uk" creation-time="20251121T102522" last-modified-by="hwallace" last-modified-on="linappserv2.pp.rhul.ac.uk" last-modification-time="20251121T102522"/>
+<info name="" type="" num-of-items="3" oks-format="data" oks-version="862f2957270" created-by="hwallace" created-on="linappserv2.pp.rhul.ac.uk" creation-time="20251121T102522" last-modified-by="hwallace" last-modified-on="np04-srv-019.cern.ch" last-modification-time="20251210T105343"/>
 
 <include>
  <file path="schema/confmodel/dunedaq.schema.xml"/>
@@ -82,13 +82,13 @@
  <file path="segments/pacman-segment.data.xml"/>
 </include>
 
+
 <obj class="DetectorConfig" id="dummy-detector">
  <attr name="tpg_channel_map" type="string" val="PD2HDTPCChannelMap"/>
  <attr name="clock_speed_hz" type="u32" val="62500000"/>
  <attr name="op_env" type="string" val="test"/>
  <attr name="offline_data_stream" type="string" val="cosmics"/>
 </obj>
-
 
 <obj class="Segment" id="root-segment">
  <rel name="segments">
@@ -99,7 +99,6 @@
  </rel>
  <rel name="controller" class="RCApplication" id="root-controller"/>
 </obj>
-
 
 <obj class="Session" id="pacman-session">
  <attr name="data_request_timeout_ms" type="u32" val="1000000"/>

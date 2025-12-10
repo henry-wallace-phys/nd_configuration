@@ -63,7 +63,7 @@
 
 <oks-data>
 
-<info name="" type="" num-of-items="151" oks-format="data" oks-version="862f2957270" created-by="hwallace" created-on="linappserv2.pp.rhul.ac.uk" creation-time="20251121T102522" last-modified-by="hwallace" last-modified-on="linappserv2.pp.rhul.ac.uk" last-modification-time="20251121T102522"/>
+<info name="" type="" num-of-items="41" oks-format="data" oks-version="862f2957270" created-by="hwallace" created-on="linappserv2.pp.rhul.ac.uk" creation-time="20251121T102522" last-modified-by="hwallace" last-modified-on="np04-srv-019.cern.ch" last-modification-time="20251210T105522"/>
 
 <include>
  <file path="schema/confmodel/dunedaq.schema.xml"/>
@@ -74,6 +74,7 @@
  <file path="defaults/data-store-params.data.xml"/>
  <file path="defaults/fsm.data.xml"/>
 </include>
+
 
 <obj class="AVXFrugalPedestalSubtractProcessor" id="tpg-pedsub-proc">
  <attr name="metric_collect_time_sample_period" type="u64" val="256"/>
@@ -109,47 +110,63 @@
  </rel>
 </obj>
 
-<obj class="TPDataProcessor" id="tp-processor">
- <attr name="queue_sizes" type="u32" val="10000"/>
- <attr name="thread_names_prefix" type="string" val="proc-"/>
- <attr name="latency_monitoring" type="bool" val="1"/>
- <attr name="print_tp_info" type="bool" val="0"/>
- <rel name="algorithms">
-  <ref class="TAMakerPrescaleAlgorithm" id="dummy-ta-maker"/>
+<obj class="ActionPlan" id="tc-maker-start">
+ <attr name="execution_policy" type="enum" val="modules-in-series"/>
+ <rel name="command" class="FSMCommand" id="start"/>
+ <rel name="steps">
+  <ref class="DaqModulesGroupByType" id="ta-handler-step"/>
+  <ref class="DaqModulesGroupByType" id="subscriber-step"/>
  </rel>
 </obj>
 
-<obj class="TAMakerADCSimpleWindowAlgorithm" id="tam-adc-simple-window">
- <attr name="prescale" type="u32" val="1"/>
- <attr name="max_samples_over_threshold" type="u32" val="10000"/>
- <attr name="adc_threshold" type="u32" val="16000000"/>
- <attr name="window_length" type="u32" val="200"/>
+<obj class="DFOConf" id="dfoconf-01">
+ <attr name="general_queue_timeout_ms" type="u32" val="100"/>
+ <attr name="stop_timeout_ms" type="u32" val="100"/>
+ <attr name="td_send_retries" type="s32" val="10"/>
+ <attr name="busy_threshold" type="s32" val="4"/>
+ <attr name="free_threshold" type="s32" val="3"/>
 </obj>
 
-<obj class="TAMakerADCSimpleWindowAlgorithm" id="tam-adcsw">
- <attr name="prescale" type="u32" val="1"/>
- <attr name="max_samples_over_threshold" type="u32" val="10000"/>
- <attr name="adc_threshold" type="u32" val="20000000"/>
- <attr name="window_length" type="u32" val="150"/>
+<obj class="DaqModulesGroupByType" id="aggregator-step">
+ <attr name="optional" type="bool" val="0"/>
+ <attr name="modules" type="class">
+  <data val="FragmentAggregatorModule"/>
+ </attr>
 </obj>
 
-<obj class="TAMakerADCSimpleWindowAlgorithm" id="tam-adcsw-killer">
- <attr name="prescale" type="u32" val="1"/>
- <attr name="max_samples_over_threshold" type="u32" val="10000"/>
- <attr name="adc_threshold" type="u32" val="999999999"/>
- <attr name="window_length" type="u32" val="20"/>
+<obj class="DaqModulesGroupByType" id="dlh-step">
+ <attr name="optional" type="bool" val="0"/>
+ <attr name="modules" type="class">
+  <data val="NDDataHandlerModule"/>
+ </attr>
 </obj>
 
-<obj class="TAMakerPrescaleAlgorithm" id="dummy-ta-maker">
- <attr name="prescale" type="u32" val="1000"/>
- <attr name="max_samples_over_threshold" type="u32" val="10000"/>
+<obj class="DaqModulesGroupByType" id="eth-data-source-step">
+ <attr name="optional" type="bool" val="0"/>
+ <attr name="modules" type="class">
+  <data val="PACMANReaderModule"/>
+ </attr>
 </obj>
 
+<obj class="DaqModulesGroupByType" id="subscriber-step">
+ <attr name="optional" type="bool" val="0"/>
+ <attr name="modules" type="class">
+  <data val="DataSubscriberModule"/>
+ </attr>
+</obj>
 
-<obj class="DataProcessor" id="def-pacman-processor">
- <attr name="queue_sizes" type="u32" val="10000"/>
- <attr name="thread_names_prefix" type="string" val="postproc-"/>
- <attr name="latency_monitoring" type="bool" val="1"/>
+<obj class="DaqModulesGroupByType" id="ta-handler-step">
+ <attr name="optional" type="bool" val="0"/>
+ <attr name="modules" type="class">
+  <data val="TriggerDataHandlerModule"/>
+ </attr>
+</obj>
+
+<obj class="DaqModulesGroupByType" id="tp-handler-step">
+ <attr name="optional" type="bool" val="1"/>
+ <attr name="modules" type="class">
+  <data val="TriggerDataHandlerModule"/>
+ </attr>
 </obj>
 
 <obj class="DataHandlerConf" id="def-link-handler">
@@ -174,71 +191,25 @@
  <rel name="data_processor" class="TPDataProcessor" id="tp-processor"/>
 </obj>
 
-<obj class="LatencyBuffer" id="def-latency-buf">
- <attr name="size" type="u32" val="139008"/>
- <attr name="numa_aware" type="bool" val="0"/>
- <attr name="numa_node" type="s16" val="1"/>
- <attr name="intrinsic_allocator" type="bool" val="0"/>
- <attr name="alignment_size" type="u32" val="4096"/>
- <attr name="preallocation" type="bool" val="0"/>
+<obj class="DataProcessor" id="def-pacman-processor">
+ <attr name="queue_sizes" type="u32" val="10000"/>
+ <attr name="thread_names_prefix" type="string" val="postproc-"/>
+ <attr name="latency_monitoring" type="bool" val="1"/>
 </obj>
 
-
-<obj class="DFOConf" id="dfoconf-01">
- <attr name="general_queue_timeout_ms" type="u32" val="100"/>
- <attr name="stop_timeout_ms" type="u32" val="100"/>
- <attr name="td_send_retries" type="s32" val="10"/>
- <attr name="busy_threshold" type="s32" val="4"/>
- <attr name="free_threshold" type="s32" val="3"/>
+<obj class="DataReaderConf" id="ta-subscriber-1">
+ <attr name="template_for" type="class" val="DataSubscriberModule"/>
+ <attr name="emulation_mode" type="bool" val="0"/>
 </obj>
 
-<obj class="RequestHandler" id="def-data-request-handler">
- <attr name="handler_threads" type="u16" val="2"/>
- <attr name="request_timeout" type="u32" val="10000"/>
- <attr name="pop_limit_pct" type="float" val="0.5"/>
- <attr name="pop_size_pct" type="float" val="0.8"/>
- <attr name="warn_on_timeout" type="bool" val="1"/>
- <attr name="warn_on_empty_buffer" type="bool" val="1"/>
+<obj class="DataReaderConf" id="tc-subscriber-1">
+ <attr name="template_for" type="class" val="DataSubscriberModule"/>
+ <attr name="emulation_mode" type="bool" val="0"/>
 </obj>
 
-<obj class="RequestHandler" id="def-tp-request-handler">
- <attr name="handler_threads" type="u16" val="1"/>
- <attr name="request_timeout" type="u32" val="0"/>
- <attr name="pop_limit_pct" type="float" val="0.5"/>
- <attr name="pop_size_pct" type="float" val="0.8"/>
- <attr name="warn_on_timeout" type="bool" val="0"/>
- <attr name="warn_on_empty_buffer" type="bool" val="1"/>
- <attr name="periodic_data_transmission_ms" type="u32" val="5"/>
-</obj>
-
-
-
-<obj class="DaqModulesGroupByType" id="aggregator-step">
- <attr name="optional" type="bool" val="0"/>
- <attr name="modules" type="class">
-  <data val="FragmentAggregatorModule"/>
- </attr>
-</obj>
-
-<obj class="DaqModulesGroupByType" id="dlh-step">
- <attr name="optional" type="bool" val="0"/>
- <attr name="modules" type="class">
-  <data val="NDDataHandlerModule"/>
- </attr>
-</obj>
-
-<obj class="DaqModulesGroupByType" id="eth-data-source-step">
- <attr name="optional" type="bool" val="0"/>
- <attr name="modules" type="class">
-  <data val="PACMANReaderModule"/>
- </attr>
-</obj>
-
-<obj class="DaqModulesGroupByType" id="tp-handler-step">
- <attr name="optional" type="bool" val="1"/>
- <attr name="modules" type="class">
-  <data val="TriggerDataHandlerModule"/>
- </attr>
+<obj class="DataReaderConf" id="tpset-subscriber-1">
+ <attr name="template_for" type="class" val="DataSubscriberModule"/>
+ <attr name="emulation_mode" type="bool" val="0"/>
 </obj>
 
 <obj class="DataWriterConf" id="dw-01">
@@ -249,6 +220,35 @@
  <rel name="data_store_params" class="DataStoreConf" id="default"/>
 </obj>
 
+<obj class="FragmentAggregatorConf" id="frag-agg-01">
+ <attr name="fragment_send_timeout_ms" type="u32" val="1000"/>
+</obj>
+
+<obj class="HSI2TCTranslatorConf" id="hsi-to-tc-conf">
+ <attr name="template_for" type="class" val="DataReaderModule"/>
+ <attr name="emulation_mode" type="bool" val="0"/>
+ <attr name="prescale" type="u32" val="1"/>
+ <attr name="latency_monitoring" type="bool" val="1"/>
+ <rel name="signals">
+  <ref class="HSISignalWindow" id="def-hsi-signal-window"/>
+ </rel>
+</obj>
+
+<obj class="HSISignalWindow" id="def-hsi-signal-window">
+ <attr name="signal_type" type="u32" val="1"/>
+ <attr name="tc_type_name" type="string" val="kTiming"/>
+ <attr name="time_before" type="u32" val="10000"/>
+ <attr name="time_after" type="u32" val="20000"/>
+</obj>
+
+<obj class="LatencyBuffer" id="def-latency-buf">
+ <attr name="size" type="u32" val="139008"/>
+ <attr name="numa_aware" type="bool" val="0"/>
+ <attr name="numa_node" type="s16" val="1"/>
+ <attr name="intrinsic_allocator" type="bool" val="0"/>
+ <attr name="alignment_size" type="u32" val="4096"/>
+ <attr name="preallocation" type="bool" val="0"/>
+</obj>
 
 <obj class="LatencyBuffer" id="ta-latency-buf">
  <attr name="size" type="u32" val="120000"/>
@@ -264,20 +264,6 @@
  <attr name="intrinsic_allocator" type="bool" val="0"/>
  <attr name="alignment_size" type="u32" val="4096"/>
  <attr name="preallocation" type="bool" val="0"/>
-</obj>
-
-<obj class="DataReaderConf" id="tc-subscriber-1">
- <attr name="template_for" type="class" val="DataSubscriberModule"/>
- <attr name="emulation_mode" type="bool" val="0"/>
-</obj>
-
-<obj class="FragmentAggregatorConf" id="frag-agg-01">
- <attr name="fragment_send_timeout_ms" type="u32" val="1000"/>
-</obj>
-
-<obj class="MLTConf" id="def-mlt-conf">
- <attr name="template_for" type="class" val="MLTModule"/>
- <attr name="latency_monitoring" type="bool" val="1"/>
 </obj>
 
 <obj class="LatencyBuffer" id="tp-latency-buf-numa0">
@@ -350,56 +336,64 @@
  <attr name="preallocation" type="bool" val="1"/>
 </obj>
 
-
-<obj class="ActionPlan" id="tc-maker-start">
- <attr name="execution_policy" type="enum" val="modules-in-series"/>
- <rel name="command" class="FSMCommand" id="start"/>
- <rel name="steps">
-  <ref class="DaqModulesGroupByType" id="ta-handler-step"/>
-  <ref class="DaqModulesGroupByType" id="subscriber-step"/>
- </rel>
-</obj>
-
-<obj class="DataReaderConf" id="ta-subscriber-1">
- <attr name="template_for" type="class" val="DataSubscriberModule"/>
- <attr name="emulation_mode" type="bool" val="0"/>
-</obj>
-
-<obj class="DaqModulesGroupByType" id="subscriber-step">
- <attr name="optional" type="bool" val="0"/>
- <attr name="modules" type="class">
-  <data val="DataSubscriberModule"/>
- </attr>
-</obj>
-
-<obj class="DaqModulesGroupByType" id="ta-handler-step">
- <attr name="optional" type="bool" val="0"/>
- <attr name="modules" type="class">
-  <data val="TriggerDataHandlerModule"/>
- </attr>
-</obj>
-
-<obj class="HSI2TCTranslatorConf" id="hsi-to-tc-conf">
- <attr name="template_for" type="class" val="DataReaderModule"/>
- <attr name="emulation_mode" type="bool" val="0"/>
- <attr name="prescale" type="u32" val="1"/>
+<obj class="MLTConf" id="def-mlt-conf">
+ <attr name="template_for" type="class" val="MLTModule"/>
  <attr name="latency_monitoring" type="bool" val="1"/>
- <rel name="signals">
-  <ref class="HSISignalWindow" id="def-hsi-signal-window"/>
+</obj>
+
+<obj class="RequestHandler" id="def-data-request-handler">
+ <attr name="handler_threads" type="u16" val="2"/>
+ <attr name="request_timeout" type="u32" val="10000"/>
+ <attr name="pop_limit_pct" type="float" val="0.5"/>
+ <attr name="pop_size_pct" type="float" val="0.8"/>
+ <attr name="warn_on_timeout" type="bool" val="1"/>
+ <attr name="warn_on_empty_buffer" type="bool" val="1"/>
+</obj>
+
+<obj class="RequestHandler" id="def-tp-request-handler">
+ <attr name="handler_threads" type="u16" val="1"/>
+ <attr name="request_timeout" type="u32" val="0"/>
+ <attr name="pop_limit_pct" type="float" val="0.5"/>
+ <attr name="pop_size_pct" type="float" val="0.8"/>
+ <attr name="warn_on_timeout" type="bool" val="0"/>
+ <attr name="warn_on_empty_buffer" type="bool" val="1"/>
+ <attr name="periodic_data_transmission_ms" type="u32" val="5"/>
+</obj>
+
+<obj class="TAMakerADCSimpleWindowAlgorithm" id="tam-adc-simple-window">
+ <attr name="prescale" type="u32" val="1"/>
+ <attr name="max_samples_over_threshold" type="u32" val="10000"/>
+ <attr name="adc_threshold" type="u32" val="16000000"/>
+ <attr name="window_length" type="u32" val="200"/>
+</obj>
+
+<obj class="TAMakerADCSimpleWindowAlgorithm" id="tam-adcsw">
+ <attr name="prescale" type="u32" val="1"/>
+ <attr name="max_samples_over_threshold" type="u32" val="10000"/>
+ <attr name="adc_threshold" type="u32" val="20000000"/>
+ <attr name="window_length" type="u32" val="150"/>
+</obj>
+
+<obj class="TAMakerADCSimpleWindowAlgorithm" id="tam-adcsw-killer">
+ <attr name="prescale" type="u32" val="1"/>
+ <attr name="max_samples_over_threshold" type="u32" val="10000"/>
+ <attr name="adc_threshold" type="u32" val="999999999"/>
+ <attr name="window_length" type="u32" val="20"/>
+</obj>
+
+<obj class="TAMakerPrescaleAlgorithm" id="dummy-ta-maker">
+ <attr name="prescale" type="u32" val="1000"/>
+ <attr name="max_samples_over_threshold" type="u32" val="10000"/>
+</obj>
+
+<obj class="TPDataProcessor" id="tp-processor">
+ <attr name="queue_sizes" type="u32" val="10000"/>
+ <attr name="thread_names_prefix" type="string" val="proc-"/>
+ <attr name="latency_monitoring" type="bool" val="1"/>
+ <attr name="print_tp_info" type="bool" val="0"/>
+ <rel name="algorithms">
+  <ref class="TAMakerPrescaleAlgorithm" id="dummy-ta-maker"/>
  </rel>
-</obj>
-
-<obj class="DataReaderConf" id="tpset-subscriber-1">
- <attr name="template_for" type="class" val="DataSubscriberModule"/>
- <attr name="emulation_mode" type="bool" val="0"/>
-</obj>
-
-
-<obj class="HSISignalWindow" id="def-hsi-signal-window">
- <attr name="signal_type" type="u32" val="1"/>
- <attr name="tc_type_name" type="string" val="kTiming"/>
- <attr name="time_before" type="u32" val="10000"/>
- <attr name="time_after" type="u32" val="20000"/>
 </obj>
 
 </oks-data>

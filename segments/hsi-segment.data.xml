@@ -63,7 +63,7 @@
 
 <oks-data>
 
-<info name="" type="" num-of-items="14" oks-format="data" oks-version="862f2957270" created-by="asztuc" created-on="np04-srv-019.cern.ch" creation-time="20231212T171111" last-modified-by="wketchum" last-modified-on="np04-srv-024.cern.ch" last-modification-time="20250304T111156"/>
+<info name="" type="" num-of-items="14" oks-format="data" oks-version="862f2957270" created-by="asztuc" created-on="np04-srv-019.cern.ch" creation-time="20231212T171111" last-modified-by="hwallace" last-modified-on="np04-srv-019.cern.ch" last-modification-time="20251210T105545"/>
 
 <include>
  <file path="schema/confmodel/dunedaq.schema.xml"/>
@@ -95,6 +95,8 @@
  <attr name="template_for" type="class" val="HSIDataHandlerModule"/>
  <attr name="input_data_type" type="string" val="HSIFrame"/>
  <attr name="generate_timesync" type="bool" val="0"/>
+ <attr name="post_processing_delay_min_wait" type="u64" val="1"/>
+ <attr name="post_processing_delay_max_wait" type="u64" val="5"/>
  <rel name="request_handler" class="RequestHandler" id="hsi-requesthandler-generic"/>
  <rel name="latency_buffer" class="LatencyBuffer" id="hsi-latency-buf"/>
  <rel name="data_processor" class="HSIFrameProcessor" id="def-hsi-processor"/>
@@ -121,7 +123,7 @@
 </obj>
 
 <obj class="FakeHSIEventGeneratorConf" id="fakehsi">
- <attr name="trigger_rate" type="double" val="10"/>
+ <attr name="trigger_rate" type="double" val="1"/>
  <attr name="hsi_device_id" type="u32" val="1"/>
  <attr name="mean_signal_multiplicity" type="u32" val="1"/>
  <attr name="enabled_signals" type="u32" val="1"/>
@@ -211,4 +213,3 @@
 </obj>
 
 </oks-data>
-
