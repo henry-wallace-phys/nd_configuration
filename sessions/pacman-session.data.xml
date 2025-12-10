@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ASCII"?>
+
+<!-- oks-data version 2.2 -->
+
+
+<!DOCTYPE oks-data [
+  <!ELEMENT oks-data (info, (include)?, (comments)?, (obj)+)>
+  <!ELEMENT info EMPTY>
+  <!ATTLIST info
+      name CDATA #IMPLIED
+      type CDATA #IMPLIED
+      num-of-items CDATA #REQUIRED
+      oks-format CDATA #FIXED "data"
+      oks-version CDATA #REQUIRED
+      created-by CDATA #IMPLIED
+      created-on CDATA #IMPLIED
+      creation-time CDATA #IMPLIED
+      last-modified-by CDATA #IMPLIED
+      last-modified-on CDATA #IMPLIED
+      last-modification-time CDATA #IMPLIED
+  >
+  <!ELEMENT include (file)*>
+  <!ELEMENT file EMPTY>
+  <!ATTLIST file
+      path CDATA #REQUIRED
+  >
+  <!ELEMENT comments (comment)*>
+  <!ELEMENT comment EMPTY>
+  <!ATTLIST comment
+      creation-time CDATA #REQUIRED
+      created-by CDATA #REQUIRED
+      created-on CDATA #REQUIRED
+      author CDATA #REQUIRED
+      text CDATA #REQUIRED
+  >
+  <!ELEMENT obj (attr | rel)*>
+  <!ATTLIST obj
+      class CDATA #REQUIRED
+      id CDATA #REQUIRED
+  >
+  <!ELEMENT attr (data)*>
+  <!ATTLIST attr
+      name CDATA #REQUIRED
+      type (bool|s8|u8|s16|u16|s32|u32|s64|u64|float|double|date|time|string|uid|enum|class|-) "-"
+      val CDATA ""
+  >
+  <!ELEMENT data EMPTY>
+  <!ATTLIST data
+      val CDATA #REQUIRED
+  >
+  <!ELEMENT rel (ref)*>
+  <!ATTLIST rel
+      name CDATA #REQUIRED
+      class CDATA ""
+      id CDATA ""
+  >
+  <!ELEMENT ref EMPTY>
+  <!ATTLIST ref
+      class CDATA #REQUIRED
+      id CDATA #REQUIRED
+  >
+]>
+
+<oks-data>
+
+<info name="" type="" num-of-items="151" oks-format="data" oks-version="862f2957270" created-by="hwallace" created-on="linappserv2.pp.rhul.ac.uk" creation-time="20251121T102522" last-modified-by="hwallace" last-modified-on="linappserv2.pp.rhul.ac.uk" last-modification-time="20251121T102522"/>
+
+<include>
+ <file path="schema/confmodel/dunedaq.schema.xml"/>
+ <file path="schema/appmodel/application.schema.xml"/>
+ <file path="schema/appmodel/trigger.schema.xml"/>
+ <file path="schema/appmodel/ndmodules.schema.xml"/>
+ <file path="defaults/fsm.data.xml"/>
+ <file path="defaults/ccm.data.xml"/>
+ <file path="defaults/connections.data.xml"/>
+ <file path="defaults/moduleconfs.data.xml"/>
+ <file path="hw/hosts.data.xml"/>
+ <file path="hw/rohw.data.xml"/>
+ <file path="segments/df-segment.data.xml"/>
+ <file path="segments/trg-segment.data.xml"/>
+ <file path="segments/hsi-segment.data.xml"/>
+ <file path="segments/pacman-segment.data.xml"/>
+</include>
+
+<obj class="DetectorConfig" id="dummy-detector">
+ <attr name="tpg_channel_map" type="string" val="PD2HDTPCChannelMap"/>
+ <attr name="clock_speed_hz" type="u32" val="62500000"/>
+ <attr name="op_env" type="string" val="test"/>
+ <attr name="offline_data_stream" type="string" val="cosmics"/>
+</obj>
+
+
+<obj class="Segment" id="root-segment">
+ <rel name="segments">
+  <ref class="Segment" id="df-segment"/>
+  <ref class="Segment" id="pacman-segment"/>
+  <ref class="Segment" id="trg-segment"/>
+  <ref class="Segment" id="hsi-segment"/>
+ </rel>
+ <rel name="controller" class="RCApplication" id="root-controller"/>
+</obj>
+
+
+<obj class="Session" id="pacman-session">
+ <attr name="data_request_timeout_ms" type="u32" val="1000000"/>
+ <attr name="data_rate_slowdown_factor" type="u32" val="1"/>
+ <attr name="controller_log_level" type="enum" val="INFO"/>
+ <attr name="log_path" type="string" val="/nfs/home/hwallace/daq_software/fddaq-v5.5.0-rc1-a9/logs"/>
+ <rel name="connectivity_service" class="ConnectivityService" id="local-connectivity-service-config"/>
+ <rel name="environment">
+  <ref class="Variable" id="local-env-connectivity-port"/>
+  <ref class="VariableSet" id="ehn1-variables"/>
+ </rel>
+ <rel name="segment" class="Segment" id="root-segment"/>
+ <rel name="infrastructure_applications">
+  <ref class="ConnectionService" id="local-connection-server"/>
+ </rel>
+ <rel name="detector_configuration" class="DetectorConfig" id="dummy-detector"/>
+ <rel name="opmon_uri" class="OpMonURI" id="cern-opmon-uri"/>
+</obj>
+
+</oks-data>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="ASCII"?>
+
+<!-- oks-data version 2.2 -->
+
+
+<!DOCTYPE oks-data [
+  <!ELEMENT oks-data (info, (include)?, (comments)?, (obj)+)>
+  <!ELEMENT info EMPTY>
+  <!ATTLIST info
+      name CDATA #IMPLIED
+      type CDATA #IMPLIED
+      num-of-items CDATA #REQUIRED
+      oks-format CDATA #FIXED "data"
+      oks-version CDATA #REQUIRED
+      created-by CDATA #IMPLIED
+      created-on CDATA #IMPLIED
+      creation-time CDATA #IMPLIED
+      last-modified-by CDATA #IMPLIED
+      last-modified-on CDATA #IMPLIED
+      last-modification-time CDATA #IMPLIED
+  >
+  <!ELEMENT include (file)*>
+  <!ELEMENT file EMPTY>
+  <!ATTLIST file
+      path CDATA #REQUIRED
+  >
+  <!ELEMENT comments (comment)*>
+  <!ELEMENT comment EMPTY>
+  <!ATTLIST comment
+      creation-time CDATA #REQUIRED
+      created-by CDATA #REQUIRED
+      created-on CDATA #REQUIRED
+      author CDATA #REQUIRED
+      text CDATA #REQUIRED
+  >
+  <!ELEMENT obj (attr | rel)*>
+  <!ATTLIST obj
+      class CDATA #REQUIRED
+      id CDATA #REQUIRED
+  >
+  <!ELEMENT attr (data)*>
+  <!ATTLIST attr
+      name CDATA #REQUIRED
+      type (bool|s8|u8|s16|u16|s32|u32|s64|u64|float|double|date|time|string|uid|enum|class|-) "-"
+      val CDATA ""
+  >
+  <!ELEMENT data EMPTY>
+  <!ATTLIST data
+      val CDATA #REQUIRED
+  >
+  <!ELEMENT rel (ref)*>
+  <!ATTLIST rel
+      name CDATA #REQUIRED
+      class CDATA ""
+      id CDATA ""
+  >
+  <!ELEMENT ref EMPTY>
+  <!ATTLIST ref
+      class CDATA #REQUIRED
+      id CDATA #REQUIRED
+  >
+]>
+
+<oks-data>
+
+<info name="" type="" num-of-items="151" oks-format="data" oks-version="862f2957270" created-by="hwallace" created-on="linappserv2.pp.rhul.ac.uk" creation-time="20251121T102522" last-modified-by="hwallace" last-modified-on="linappserv2.pp.rhul.ac.uk" last-modification-time="20251121T102522"/>
+
+<include>
+ <file path="schema/confmodel/dunedaq.schema.xml"/>
+ <file path="schema/appmodel/application.schema.xml"/>
+ <file path="schema/appmodel/trigger.schema.xml"/>
+ <file path="schema/appmodel/ndmodules.schema.xml"/>
+ <file path="defaults/connections.data.xml"/>
+ <file path="defaults/moduleconfs.data.xml"/>
+ <file path="defaults/ccm.data.xml"/>
+ <file path="hw/hosts.data.xml"/>
+ <file path="hw/rohw.data.xml"/>
+ <file path="hw/pacman-det-connections.data.xml"/>
+</include>
+
+<obj class="Segment" id="pacman-segment">
+ <rel name="applications">
+  <ref class="ReadoutApplication" id="pacman-app"/>
+ </rel>
+ <rel name="controller" class="RCApplication" id="pacman-controller"/>
+</obj>
+
+<obj class="RCApplication" id="pacman-controller">
+ <attr name="application_name" type="string" val="drunc-controller"/>
+ <rel name="runs_on" class="VirtualHost" id="vlocalhost"/>
+ <rel name="exposes_service">
+  <ref class="Service" id="rccontroller_control"/>
+ </rel>
+ <rel name="opmon_conf" class="OpMonConf" id="slow-all-monitoring"/>
+ <rel name="fsm" class="FSMconfiguration" id="FSMconfiguration_noAction"/>
+</obj>
+
+<obj class="ReadoutApplication" id="pacman-app">
+ <attr name="application_name" type="string" val="daq_application"/>
+ <attr name="tp_generation_enabled" type="bool" val="1">
+ <attr name="ta_generation_enabled" type="bool" val="1"/>
+ <rel name="runs_on" class="VirtualHost" id="vlocalhost"/>
+ <rel name="exposes_service">
+  <ref class="Service" id="daqapp_control"/>
+  <ref class="Service" id="dataRequests"/>
+  <ref class="Service" id="timeSyncs"/>
+  <ref class="Service" id="triggerActivities"/>
+  <ref class="Service" id="triggerPrimitives"/>
+ </rel>
+ <rel name="opmon_conf" class="OpMonConf" id="slow-all-monitoring"/>
+ <rel name="action_plans">
+  <ref class="ActionPlan" id="eth-readout-start"/>
+  <ref class="ActionPlan" id="eth-readout-stop"/>
+ </rel>
+ <rel name="queue_rules">
+  <ref class="QueueConnectionRule" id="pacman-eth-raw-data-rule"/>
+  <ref class="QueueConnectionRule" id="pacman-callback-raw-data-rule"/>
+  <ref class="QueueConnectionRule" id="pacman-dlh-data-requests-queue-rule"/>
+  <ref class="QueueConnectionRule" id="fa-queue-rule"/>
+  <ref class="QueueConnectionRule" id="tp-queue-rule"/>
+ </rel>
+ <rel name="network_rules">
+  <ref class="NetworkConnectionRule" id="ts-net-rule"/>
+  <ref class="NetworkConnectionRule" id="ta-net-rule"/>
+  <ref class="NetworkConnectionRule" id="data-req-readout-net-rule"/>
+  <ref class="NetworkConnectionRule" id="tpset-net-rule"/>
+ </rel>
+ <rel name="tp_source_ids">
+  <ref class="SourceIDConf" id="tp-srcid-1000"/>
+ </rel>
+ <rel name="uses" class="RoHwConfig" id="generic-pac-hw-cfg"/>
+ <rel name="link_handler" class="DataHandlerConf" id="def-link-handler"/>
+ <rel name="tp_handler" class="DataHandlerConf" id="def-tp-handler"/>
+ <rel name="data_reader" class="PACMANModuleConf" id="pacman-reader"/>
+ <rel name="fragment_aggregator" class="FragmentAggregatorConf" id="frag-agg-01"/>
+ <rel name="detector_connections">
+  <ref class="NetworkDetectorToDaqConnection" id="pacman-connections"/>
+ </rel>
+</obj>
+
+<obj class="SourceIDConf" id="tp-srcid-1000">
+ <attr name="sid" type="u32" val="1000"/>
+ <attr name="subsystem" type="enum" val="Trigger"/>
+</obj>
+
+<obj class="PACMANModuleConf" id="pacman-reader">
+ <attr name="template_for" type="class" val="PACMANReaderModule"/>
+ <attr name="emulation_mode" type="bool" val="0"/>
+</obj>
+
+</oks-data>
